@@ -79,3 +79,32 @@ Image 8 - Visualizing placement result with Magic
 Image 9 - Legal placement of the cells
 <img width="1920" height="1014" alt="day2-placementlegal" src="https://github.com/user-attachments/assets/88099206-591e-43e3-b3ec-03b295dcc13e" />
 
+## Day 3 - Designing library cell
+
+The following topics are addresed:
+- It's possible to change variables when it's needed during Openlane flow using the commmand 'set (variable name as shown in the list addressed on day 1) (value)'
+- Creation of the SPICE deck, with information about component connectivity and values. With that, it's possible to create SPICE simulations to see the waveform behavior of the component. During this step, the different behaviors of the waveforms of an inverter were shown according to the size differences of width/length of PMOS and NMOS, and the resulting switching thresholds were discussed
+- The steps of the 16-mak CMOS process were explained in details
+- Reviewed [Standard cell design and characterization using openlane flow](https://github.com/nickson-jose/vsdstdcelldesign) repository on GitHub and analysed the inverter
+
+### Labs
+
+Image 10 - Opening and understanding the inverter layout using Magic
+<img width="1920" height="1014" alt="day3-inverterlayout" src="https://github.com/user-attachments/assets/acdf5e47-9437-4b37-982b-3fa862668991" />
+
+Image 11 - Deleting part of the design to see DRC in action
+<img width="1920" height="1014" alt="day3-testingdrc" src="https://github.com/user-attachments/assets/b707d432-131a-4c54-9539-75a2018c8e11" />
+
+Image 12 - After this, we extracted the .mag file into a SPICE netlist using the commands 'extract all', 'ext2spice cthresh 0 rthresh 0' and 'ext2spice' on the Magic command interface and edited the file for simulation analysis (I forgot to get a screenshot of the file before getting edited)
+<img width="1920" height="1014" alt="day3-extractedspice" src="https://github.com/user-attachments/assets/d99d7e7a-6d56-479d-a925-413ff779df71" />
+
+Image 13 - Simulating and plotting waveform using ngspice
+<img width="1920" height="1014" alt="day3-spicesim" src="https://github.com/user-attachments/assets/58c4699b-c85e-4cf4-af3c-256a171f7d3f" />
+
+Images 14, 15 - Finding 20% and 80% rise values, respectively (y1 = 0.66 and y2 = 2.64)
+<img width="1920" height="1014" alt="day3-20pctrise" src="https://github.com/user-attachments/assets/c6d15728-2dc8-40de-8f02-a72cf1058a25" />
+<img width="1920" height="1014" alt="day3-80pctrise" src="https://github.com/user-attachments/assets/1e7ae3e3-d7b2-4425-a285-63ffd355326a" />
+
+
+
+
