@@ -132,3 +132,36 @@ Image 22 - Lab exercise to correct transistor channel width DRC (difftap.2)
 <img width="1920" height="1014" alt="day3-exercise" src="https://github.com/user-attachments/assets/bfe98af8-326d-4cbc-a4d7-3a2ca40f8ae8" />
 
 ## Day 4
+
+The following topics are addresed:
+- Input and output ports should lie on the intersection of horizontal tracks
+- Stdcell should have width 
+
+### Lab
+
+Image 23 - Tracks info used in routing stage
+<img width="1920" height="1014" alt="day4-tracksinfo" src="https://github.com/user-attachments/assets/285d2d7d-0631-4ec6-a5bf-f439b8efad1c" />
+
+Image 24 - Zooming in to inverter layout to see current grids
+<img width="958" height="1005" alt="day4-gridsactivated" src="https://github.com/user-attachments/assets/632d4f59-026e-4d0a-8eb3-9f797920e3f6" />
+
+Image 25 - Setting the grid as the size described on the tracks info file. Note that the width and height of the cell are whole multiples of the width and height of the tracks
+<img width="958" height="1005" alt="day4-gridsastracksfile" src="https://github.com/user-attachments/assets/e68bc6e8-b4f0-4856-926a-dd451d04319b" />
+
+Image 26 - Also note that the contacts are localized within the intersection of the tracks
+<img width="958" height="1005" alt="day4-contactsintersection" src="https://github.com/user-attachments/assets/c44c6434-a5e3-40b6-bc7e-1f7b06ccc297" />
+
+Image 27 - Here, a copy of the file sky130_vsdinv.mag is saved, and a LEF file is created by using the 'lef write' command.
+<img width="958" height="1005" alt="day4-leffile" src="https://github.com/user-attachments/assets/89ec93c8-ff2f-4c05-83af-e14ff2758964" />
+
+Image 28 - The LEF file, along with the libs, are copied to the src folder of the picorv32 design
+<img width="958" height="1005" alt="day4-copytopico32" src="https://github.com/user-attachments/assets/149cf90c-38db-41c9-94b3-91b911e75119" />
+
+
+Image 29 - Selecting our current run and setting lefs
+<img width="958" height="1005" alt="day4-setlefs" src="https://github.com/user-attachments/assets/eaa26e98-f632-4576-a408-ea5e27ac3eb1" />
+
+Image 30 - Anxiety is killing me... Waiting for ABC to finish
+<img width="958" height="1005" alt="day4-anxiety" src="https://github.com/user-attachments/assets/2276a051-2b99-48c4-a767-f8e6003d6db4" />
+
+
