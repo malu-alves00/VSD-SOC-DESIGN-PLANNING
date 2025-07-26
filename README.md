@@ -86,6 +86,7 @@ The following topics are addresed:
 - Creation of the SPICE deck, with information about component connectivity and values. With that, it's possible to create SPICE simulations to see the waveform behavior of the component. During this step, the different behaviors of the waveforms of an inverter were shown according to the size differences of width/length of PMOS and NMOS, and the resulting switching thresholds were discussed
 - The steps of the 16-mak CMOS process were explained in details
 - Reviewed [Standard cell design and characterization using openlane flow](https://github.com/nickson-jose/vsdstdcelldesign) repository on GitHub and analysed the inverter
+- Discussed Sky130 DRC rules and tested them in Magic
 
 ### Labs
 
@@ -105,6 +106,29 @@ Images 14, 15 - Finding 20% and 80% rise values, respectively (y1 = 0.66 and y2 
 <img width="1920" height="1014" alt="day3-20pctrise" src="https://github.com/user-attachments/assets/c6d15728-2dc8-40de-8f02-a72cf1058a25" />
 <img width="1920" height="1014" alt="day3-80pctrise" src="https://github.com/user-attachments/assets/1e7ae3e3-d7b2-4425-a285-63ffd355326a" />
 
+### Labs - DRC
 
+Image 16 - Opening met3 in Magic an using command 'drc why' to check DRC on rule met3.6
+<img width="1920" height="1014" alt="day3-drcwhy36" src="https://github.com/user-attachments/assets/f4d8a11e-5e3e-4a5e-8d13-0c867a65ebc9" />
 
+Image 17 - Creating layer of m3contact and using 'cif see VIA2'
+<img width="1920" height="1014" alt="day3-via2" src="https://github.com/user-attachments/assets/d723cca3-30df-435a-b47a-2b66b7d816eb" />
 
+Image 18 - Poly9 rule not getting flagged, need changes on the tech file (check uploaded sky130a.tech file on Day 3 directory)
+<img width="1920" height="1014" alt="day3-notshowingpoly9" src="https://github.com/user-attachments/assets/28e38cfd-f8cf-4c09-9e7f-9b1ebf0295c1" />
+
+Image 19 - Poly9 rule getting flagged correctly after adding sections to the DRC
+<img width="958" height="1005" alt="day3-firstpoly9detected" src="https://github.com/user-attachments/assets/818de37e-e4cc-4cee-ac5e-6117b9c6e7f9" />
+
+Image 20 - Analysing more examples of when the poly9 should be applied with pdiffusion and ndiffusion layers
+<img width="1920" height="1014" alt="day3-polymorerules" src="https://github.com/user-attachments/assets/15be767e-484f-4a1d-8dab-748ff4b02a91" />
+
+Obs.: I've been struggling a lot with visual bug on the Magic tool used in the virtual machine, often needing to restart it multiple times. Some indications wouldn't appear in the red poly layers even though it would be indicated on the 'drc why', so I considered it to be part of the visual bugs.
+
+Image 21 - Analysis and implementation of the nwell.6 rule according to the lecture
+<img width="1920" height="1014" alt="day3-deepnwellrule" src="https://github.com/user-attachments/assets/a367ca87-987a-43e8-8353-dc21e6419bf4" />
+
+Image 22 - Lab exercise to correct transistor channel width DRC (difftap.2)
+<img width="1920" height="1014" alt="day3-exercise" src="https://github.com/user-attachments/assets/bfe98af8-326d-4cbc-a4d7-3a2ca40f8ae8" />
+
+## Day 4
