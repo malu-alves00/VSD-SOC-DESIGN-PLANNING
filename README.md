@@ -71,7 +71,7 @@ Image 6 - Poor stdcells squished at the bottom left of the floorplan, waiting fo
 Image 7 - Decaps, taps and IO pins
 <img width="1920" height="1014" alt="day2-floorplanzoom" src="https://github.com/user-attachments/assets/c4280bd8-47f0-4e4c-b28f-1a18a544f023" />
 
-Initiate placement using RePLACE
+Initiate placement using RePLACE, command 'run_placement'.
 
 Image 8 - Visualizing placement result with Magic
 <img width="1920" height="1014" alt="day2-placementmagic" src="https://github.com/user-attachments/assets/3b928ab9-b4fa-4378-9a29-7e4554f98a15" />
