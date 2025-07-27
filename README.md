@@ -229,7 +229,7 @@ Now, we write those changes in the netlist with the command 'write_verilog /home
 Image 46 - Here, we can find the commands related to the flow. Inside the cts.tcl, it's possible to see the procs and list of commands inside
 <img width="958" height="1005" alt="day4-commandslist" src="https://github.com/user-attachments/assets/178c2c50-2785-4ced-95cf-8022bf012b2c" />
 
-"Image 47" - In this step, we run the 'openroad' command do to post-CTS timing analysis using OpenROAD. As I forgot to take this screenshot before moving on, check image 50. The only difference is the 'pico_cts.db' instead of 'pico_cts1.db'
+"Image 47" - In this step, we run the 'openroad' command to do post-CTS timing analysis using OpenROAD. As I forgot to take this screenshot before moving on, check image 50. The only difference is the 'pico_cts.db' instead of 'pico_cts1.db'
 
 Image 48 - This time, we'll remove the clkbuf_1 from the list
 <img width="1920" height="1014" alt="day4-clockbuffdel" src="https://github.com/user-attachments/assets/9db2f1ea-90d8-4199-9170-690a71ddaf6a" />
