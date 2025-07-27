@@ -137,6 +137,10 @@ The following topics are addresed:
 - Creation of LEF file of the previously opened inverter to be used on the PicoRV32 design
 - Analysis of the grid layout in Magic
 - How to make the CTS power aware? Using logic gates that can block the clock from propagating. However, the delay needs to be studied by a delay table
+- FFs need a setup time depending on the combinational logic present. They are also prone to uncertainty of the clock and jittering, which should be calculated and taken into account. Based on the characteristics of the circuit, the clock needs to be calculated thinking of the uncertainty and delays
+- A good strategy to route a clock tree is using the H-tree approach, as it's able to balance the clock time and is good for scaling designs
+- Crosstalk of the signals should be avoided, and the clock net shielding is good to remove internal capacitances that might affect the signals
+- Since there are many buffers in the clock tree, the time required for the clock to reach from a launch FF to a capture FF needs to take those middle buffer delays in consideration
 - 
 
 ### Lab
@@ -191,5 +195,59 @@ Image 35 - When it runs correctly, I execute 'run_placement' and open the result
 Image 36 - It's possible to find the new inverter cell in the layout
 <img width="1920" height="1014" alt="day4-newcellmagic" src="https://github.com/user-attachments/assets/e8588a9d-3228-40e0-96d8-a014c9bed4b2" />
 
-Image 37 - Selecting the option "expand", it's possible to see 
+Image 37 - Selecting the option "expand" on the "cell manager" window, it's possible to see the connections
+<img width="1920" height="1014" alt="day4-expandcells" src="https://github.com/user-attachments/assets/add1f247-3368-4ffd-bd24-f77cef456512" />
+
+Now, we do another synthesis to generate new files that don't have the preferred timings, as seen by this last synthesis
+
+Image 38 - Create a pre_sta.conf on the openlane folder
+<img width="1920" height="1014" alt="day4-pre_sta" src="https://github.com/user-attachments/assets/9b20fee5-6c3b-417a-9831-2d9985ca6686" />
+
+Image 39 - Create a my_base.sdc file on the src folder of the PicoRV32 design
+<img width="1920" height="1014" alt="day4-my_base" src="https://github.com/user-attachments/assets/7598d6b6-4ed4-4331-b16f-31571377b10e" />
+
+Image 40 - On the openlane folder, run 'sta pre_sta.conf' to see timing violations
+<img width="1920" height="1014" alt="day4-slackviolated" src="https://github.com/user-attachments/assets/eb87b3d3-a297-4285-a419-c7a01047bae1" />
+
+Image 41 - Seeing how high it is, we set the SYNTH_MAX_FANOUT var to 4, overwrite the design file, 'run_synthesis' again and run the 'sta pre_sta.conf' to see the changes. It's still bad, so we analyze the cells to identify the causes
+<img width="958" height="1005" alt="day4-afterslack" src="https://github.com/user-attachments/assets/e61f7f8f-b473-4a7a-afed-f37b8e28dcd5" />
+
+Image 42, 43 - It's possible to see some OR cells with 4 fanouts. As a way to make this better, we need to run some report commands. By reporting the net using 'report_net -connections _11672', we see the driver pins. The example below is for the _14510, but I also identify some more.
+<img width="958" height="1005" alt="day4-4fanout" src="https://github.com/user-attachments/assets/d6de1065-233e-4209-87b4-a7a980f8cf12" />
+<img width="958" height="1005" alt="day4-reportconnections" src="https://github.com/user-attachments/assets/3da5d7ad-b92d-478c-8f1f-939628ed28ce" />
+
+To try and fix the slack, we replace some cells with better suited ones for driving 4 fanouts using the command 'replace_cell [driver number] sky130_fd_sc_hd__or(number)_4'
+
+Image 44 - After a long time replacing OR cells, the slack had gone up by ~1s
+<img width="958" height="1005" alt="day4-finalorslack" src="https://github.com/user-attachments/assets/6658c63b-84ec-468a-bb08-bd7b4c4178ff" />
+
+Image 45 - report_checks -from _29052 -to _30440 -through _14510
+<img width="958" height="1005" alt="day4-customreport" src="https://github.com/user-attachments/assets/44fc9d32-9829-45bf-97c4-e8dc11cf2b59" />
+
+Now, we write those changes in the netlist with the command 'write_verilog /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/27-07_21-48(or any date that the flow ran)/results/synthesis/picorv32a.synthesis.v'
+
+Image 46 - Here, we can find the commands related to the flow. Inside the cts.tcl, it's possible to see the procs and list of commands inside
+<img width="958" height="1005" alt="day4-commandslist" src="https://github.com/user-attachments/assets/178c2c50-2785-4ced-95cf-8022bf012b2c" />
+
+"Image 47" - In this step, we run the 'openroad' command do to post-CTS timing analysis using OpenROAD. As I forgot to take this screenshot before moving on, check image 50. The only difference is the 'pico_cts.db' instead of 'pico_cts1.db'
+
+Image 48 - This time, we'll remove the clkbuf_1 from the list
+<img width="1920" height="1014" alt="day4-clockbuffdel" src="https://github.com/user-attachments/assets/9db2f1ea-90d8-4199-9170-690a71ddaf6a" />
+
+Image 49 - We again do 'run_cts' to see the results, but an error pops up because we need to reference the placement def, not the cts one. So, using the commands in the image, we correct it
+<img width="1920" height="1014" alt="day4-changingdeftocorrect" src="https://github.com/user-attachments/assets/06a39068-0c3c-47b0-ac4f-40e8379a58bd" />
+
+Image 50 - To do the reports, as the files were changed, the db needs to be written again
+<img width="1920" height="1014" alt="day4-commandsandreportlasttime" src="https://github.com/user-attachments/assets/06982db0-f1f0-4635-807c-a51aa4ae8c51" />
+
+Image 51 - Hold slack from report
+<img width="1920" height="1014" alt="day4-newholdslack" src="https://github.com/user-attachments/assets/7b5c33ae-5add-495d-ab83-9a377c519929" />
+
+Image 52 - Setup slack from report
+<img width="1920" height="1014" alt="setupslacklast" src="https://github.com/user-attachments/assets/4ef61113-ed12-410a-8e9a-736deec3238b" />
+
+Image 53 - Checking clock skew for setup and hold, and adding back the clkbuf_1
+<img width="1920" height="1014" alt="day4-skewsandclkbf" src="https://github.com/user-attachments/assets/146c3939-2998-4ef1-9fa0-825137931443" />
+
+
 
