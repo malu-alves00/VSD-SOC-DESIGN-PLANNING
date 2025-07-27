@@ -134,8 +134,10 @@ Image 22 - Lab exercise to correct transistor channel width DRC (difftap.2)
 ## Day 4
 
 The following topics are addresed:
-- Input and output ports should lie on the intersection of horizontal tracks
-- Stdcell should have width 
+- Creation of LEF file of the previously opened inverter to be used on the PicoRV32 design
+- Analysis of the grid layout in Magic
+- How to make the CTS power aware? Using logic gates that can block the clock from propagating. However, the delay needs to be studied by a delay table
+- 
 
 ### Lab
 
@@ -157,11 +159,35 @@ Image 27 - Here, a copy of the file sky130_vsdinv.mag is saved, and a LEF file i
 Image 28 - The LEF file, along with the libs, are copied to the src folder of the picorv32 design
 <img width="958" height="1005" alt="day4-copytopico32" src="https://github.com/user-attachments/assets/149cf90c-38db-41c9-94b3-91b911e75119" />
 
+Image 29 - Setting the lib files on config.tcl of the PicoRV32 design
+<img width="1920" height="1014" alt="day4-configforlef" src="https://github.com/user-attachments/assets/84fe5e42-a1cd-41b7-a486-8089e37c7b3c" />
 
-Image 29 - Selecting our current run and setting lefs
+Image 30 - Selecting our current run and setting lefs
 <img width="958" height="1005" alt="day4-setlefs" src="https://github.com/user-attachments/assets/eaa26e98-f632-4576-a408-ea5e27ac3eb1" />
 
-Image 30 - Anxiety is killing me... Waiting for ABC to finish
-<img width="958" height="1005" alt="day4-anxiety" src="https://github.com/user-attachments/assets/2276a051-2b99-48c4-a767-f8e6003d6db4" />
+Image 31 - We run synthesis using the command 'run_synthesis'. When it's finished, it's possible to see the chip area, wns (worst timing violation) and tns (total negative slack)
+<img width="1920" height="1014" alt="day4-areatimingsynthesis" src="https://github.com/user-attachments/assets/e08f3c9b-5ca7-4a8d-a892-a40c0e633df9" />
 
+Those timing values aren't ideal, so we'll change some variables to see how the output changes. Using 'set ::env[VARIABLE_NAME] value' and 'echo $::env[VARIABLE_NAME]', we:
+- Set SYNTH_STRATEGY DELAY 1
+- Verify that SYNTH_BUFFERING is 1 (enable)
+- Set SYNTH_SIZING from 0 to 1 (enabled)
+- Verify that SYNTH_DRIVING_CELL is set to sky130_fd_sc_hd__inv_8
+
+To run synthesis again, we need to overwrite the design using prep -design picorv32a -tag (DATE) -overwrite. Don't forget to use the date you ran the synthesis! The setting lefs step in image 30 is also done, again.
+
+Image 32 - Timing improvement and bigger area are seen as we do 'run_synthesis' again
+<img width="1920" height="1014" alt="day4-besttiming" src="https://github.com/user-attachments/assets/c6083567-917e-4b2e-82f0-142723944a10" />
+
+Image 33 - While 'run_floorplan' is executing, we open the merged.lef file for the PicoRV32 and check that our inverter design is correctly referenced
+<img width="958" height="1005" alt="day4-leffile" src="https://github.com/user-attachments/assets/a5163c38-2b69-4c73-820c-c234ee6a5846" />
+
+Image 34 - Uh oh, some errors during floorplan. Instead, we try the approach to use the commands 'init_floorplan', 'place_io', and 'tap_decap_or' separately, which are contained within the 'run_floorplan'
+<img width="1920" height="1014" alt="day4-floorplanerror" src="https://github.com/user-attachments/assets/5518a4fa-e113-47ca-8eae-bf97ecc8ed33" />
+
+Image 35 - When it runs correctly, I execute 'run_placement' and open the resulting def file using magic
+<img width="1920" height="1014" alt="day4-newplacement" src="https://github.com/user-attachments/assets/985d0f98-bdc5-4f2b-bc68-22599c1aa98c" />
+
+Image 36 - It's possible to find the new inverter cell in the layout
+<img width="1920" height="1014" alt="day4-newcellmagic" src="https://github.com/user-attachments/assets/e8588a9d-3228-40e0-96d8-a014c9bed4b2" />
 
