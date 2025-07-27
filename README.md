@@ -191,3 +191,5 @@ Image 35 - When it runs correctly, I execute 'run_placement' and open the result
 Image 36 - It's possible to find the new inverter cell in the layout
 <img width="1920" height="1014" alt="day4-newcellmagic" src="https://github.com/user-attachments/assets/e8588a9d-3228-40e0-96d8-a014c9bed4b2" />
 
+Image 37 - Selecting the option "expand", it's possible to see 
+
