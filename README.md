@@ -141,7 +141,7 @@ The following topics are addresed:
 - A good strategy to route a clock tree is using the H-tree approach, as it's able to balance the clock time and is good for scaling designs
 - Crosstalk of the signals should be avoided, and the clock net shielding is good to remove internal capacitances that might affect the signals
 - Since there are many buffers in the clock tree, the time required for the clock to reach from a launch FF to a capture FF needs to take those middle buffer delays in consideration
-- 
+- Examples of setup and hold analysis using real clocks were shown and discussed
 
 ### Lab
 
