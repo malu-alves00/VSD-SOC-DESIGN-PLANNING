@@ -249,5 +249,40 @@ Image 52 - Setup slack from report
 Image 53 - Checking clock skew for setup and hold, and adding back the clkbuf_1
 <img width="1920" height="1014" alt="day4-skewsandclkbf" src="https://github.com/user-attachments/assets/146c3939-2998-4ef1-9fa0-825137931443" />
 
+## Day 5 - Final steps for RTL2GDS using tritonRoute and OpenSTA
+
+The following topics were discussed:
+- Introduction to Maze Routing, Lee's algorithm. What's the shortest path to connect two cells, with the minimum amount of corners?
+- Design Rule Check and how it arises from the lithography standpoint - width of wires, distance, etc
+- Global route - creating preprocessed route guide that abide to the inter-guide connectivity - done by FastRoute and initial detail route - using algorithms to find proper connectivities - done by tritonRoute
+- Input of TritonRoute is LEF, DEF and preprocessed route guides; output is a detailed routing that's optimized for VIA count and wire-length; the constraints are the route guide, connectivity and design rules
+- Access points and access point clusters, how to connect to an upper layer
+- Overview of routing topology algorithm used by TritonRouter
+
+### Lab
+
+Image 54 - By using the command 'prep -design picorv32a -tag 27-07_21-48' it's possible to return to where the flow left off. Using the command 'echo $::env(CURRENT_DEF)', the def created by the CTS stage is shown. We also run the 'gen_pdn' to generate the power distribution network
+<img width="1280" height="768" alt="day5-ctsdef" src="https://github.com/user-attachments/assets/6b40eb69-6aa9-4a1d-ac22-e99022e98184" />
+
+Image 55 - After the last step, we echo the CURRENT_DEF to confirm the values before running the routing
+<img width="1280" height="768" alt="day5-routing" src="https://github.com/user-attachments/assets/6a269f10-a243-45fe-964d-86063c970287" />
+
+Image 56 - No violations found, report on routing
+<img width="1280" height="768" alt="day5-noviolations" src="https://github.com/user-attachments/assets/5fd19e93-e21e-4db1-a6db-6e67af887fc4" />
+
+Image 57 - Going to the tmp/routing folder of the current run on PicoRV32 design, we can find the FastRoute route guide
+<img width="1920" height="1014" alt="day5-routingguide" src="https://github.com/user-attachments/assets/eae09884-5117-4ee1-80f8-0940ee410a63" />
+
+Image 58 - The last things needed are the parasitic extracting and post-route STA. To the extracting, we use [SPEF_EXTRACTOR](https://github.com/HanyMoussa/SPEF_EXTRACTOR), which can be downloaded by the link provided, using the command 'python3 main.py /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/27-07_21-48/tmp/merged.lef /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/27-07_21-48/results/routing/picorv32a.def'. Don't forget to install the dependencies as explained by the repository linked above.
+<img width="958" height="1005" alt="day5-spef_extractor" src="https://github.com/user-attachments/assets/f98819fb-090f-4804-b5db-e1899089575b" />
+
+Image 59 - After that, we do the timing analysis as shown previously and addind the 'read_spef' command
+<img width="1920" height="966" alt="day5-postroutta" src="https://github.com/user-attachments/assets/ea329e97-e680-452c-a80a-f9a5b00f4ab3" />
+
+Images 60,61 - Timing requirements met!
+
+<img width="1920" height="966" alt="day5-time1" src="https://github.com/user-attachments/assets/8bacf097-d37e-4d88-b345-96d6f2423c7e" />
+<img width="1920" height="966" alt="day5-time2" src="https://github.com/user-attachments/assets/2cc3e475-8f84-4f23-87de-6dc42c3c2062" />
+
 
 
