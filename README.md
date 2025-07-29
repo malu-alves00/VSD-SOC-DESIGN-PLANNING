@@ -1,11 +1,11 @@
 # VSD SoC Design and Planning Workshop
-This is a workshop offered by [VLSI System Design](https://www.vlsisystemdesign.com/) with the intent of developing skills relating to - and understanding of - the place and route process os chip design.
+This is a workshop offered by [VLSI System Design](https://www.vlsisystemdesign.com/) with the intent of developing skills relating to - and understanding of - the place and route process in chip design.
 As tools, [Google SkyWater Sky130 PDK](https://skywater-pdk.readthedocs.io/en/main/) and [Openlane](https://efabless-com.translate.goog/openlane) flow are used.
 
 ## Day 1 - Introduction, Openlane, Sky130A PDK and synthesis
 
 The following topics are addresed:
-- Basics of how digital systems create a communication between hardware and software
+- How does the communication between hardware and software works?
 - RTL2GDS flow
 - Openlane flow - how the integrated tools are used for each step in IC design, directory structure, configuration files, design preparation and synthesis
 
